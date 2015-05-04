@@ -1,0 +1,11 @@
+Code-Review+2: Monty Taylor <mordred@inaugust.com>
+Workflow+1: Monty Taylor <mordred@inaugust.com>
+Verified+2: Jenkins
+Code-Review+2: Clark Boylan <cboylan@sapwetik.org>
+Code-Review+1: Spencer Krum <nibz@spencerkrum.com>
+Code-Review+1: Stephanie Miller <stephane@alum.mit.edu>
+Submitted-by: Jenkins
+Submitted-at: Mon, 04 May 2015 15:03:31 +0000
+Reviewed-on: https://review.openstack.org/170960
+Project: openstack-infra/puppet-jeepyb
+Branch: refs/heads/master
