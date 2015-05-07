@@ -18,11 +18,17 @@ class jeepyb::fetch_remotes(
 
   include jeepyb
 
+  file { '/var/lib/jeepyb':
+    ensure => 'directory',
+    owner  => $user
+  }
+
   cron { 'jeepyb_gerritfetchremotes':
     ensure      => $ensure,
     user        => $user,
     minute      => $minute,
     command     => "sleep $((RANDOM\%60+90)) && /usr/local/bin/manage-projects -v >> ${logfile} 2>&1",
+    logfile     => $logfile,
   }
 
   include logrotate
