@@ -23,10 +23,23 @@ class jeepyb::manage_projects(
     logoutput   => true,
   }
 
+  file { '/etc/logrotate.d/var':
+    ensure  => directory,
+    require => File['/etc/logrotate.d']
+  }
+
+  file { '/etc/logrotate.d/var/log':
+    ensure  => directory,
+    require => File['/etc/logrotate.d/var']
+  }
+
   include logrotate
   logrotate::file { $logfile:
     log     => $logfile,
     options => $log_options,
-    require => Exec['jeepyb_manage_projects'],
+    require => [
+      Exec['jeepyb_manage_projects'],
+      File['/etc/logrotate.d/var/log'],
+    ]
   }
 }
