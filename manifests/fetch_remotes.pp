@@ -26,7 +26,9 @@ class jeepyb::fetch_remotes(
   }
 
   include logrotate
-  logrotate::file { $logfile:
+  $path_items = split($logfile, '[/]')
+  $base_file = $path_items[-1]
+  logrotate::file { $base_file:
     log     => $logfile,
     options => $log_options,
     require => Cron['jeepyb_gerritfetchremotes'],

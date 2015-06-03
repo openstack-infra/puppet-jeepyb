@@ -24,7 +24,9 @@ class jeepyb::manage_projects(
   }
 
   include logrotate
-  logrotate::file { $logfile:
+  $path_items = split($logfile, '[/]')
+  $base_file = $path_items[-1]
+  logrotate::file { $base_file:
     log     => $logfile,
     options => $log_options,
     require => Exec['jeepyb_manage_projects'],
