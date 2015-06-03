@@ -24,7 +24,8 @@ class jeepyb::manage_projects(
   }
 
   include logrotate
-  logrotate::file { $logfile:
+  $base_file = regsubst($logfile, '[/]', '_', 'G')
+  logrotate::file { $base_file:
     log     => $logfile,
     options => $log_options,
     require => Exec['jeepyb_manage_projects'],
