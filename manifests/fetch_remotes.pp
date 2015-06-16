@@ -4,7 +4,7 @@ class jeepyb::fetch_remotes(
   $ensure  = present,
   $user    = 'gerrit2',
   $minute  = '*/30',
-  $logfile = '/var/log/jeepyb_gerritfetchremotes.log',
+  $logfile = 'gerritfetchremotes.log',
   $log_options = [
     'compress',
     'missingok',
@@ -15,20 +15,36 @@ class jeepyb::fetch_remotes(
   ],
 ) {
   validate_array($log_options)
+  $logdir = '/var/log/jeepyb'
 
   include ::jeepyb
+
+  if $ensure == present {
+    file { $logdir:
+      ensure  => directory,
+      owner   => $user,
+      require => User[$user],
+    }
+  }
 
   cron { 'jeepyb_gerritfetchremotes':
     ensure  => $ensure,
     user    => $user,
     minute  => $minute,
-    command => "sleep $((RANDOM\%60+90)) && /usr/local/bin/manage-projects -v >> ${logfile} 2>&1",
+    command => "sleep $((RANDOM\%60+90)) && /usr/local/bin/manage-projects -v >> ${logdir}/${logfile} 2>&1",
+    require => File[$logdir],
   }
 
   include ::logrotate
   logrotate::file { $logfile:
-    log     => $logfile,
+    ensure  => $ensure,
+    log     => "${logdir}/${logfile}",
     options => $log_options,
     require => Cron['jeepyb_gerritfetchremotes'],
+  }
+
+  # clean up buggy files
+  logrotate::fileremoval {
+    '/var/log/jeepyb_gerritfetchremotes.log':
   }
 }
