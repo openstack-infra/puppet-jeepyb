@@ -4,7 +4,7 @@ class jeepyb (
   $git_source_repo = 'https://git.openstack.org/openstack-infra/jeepyb',
   $git_revision    = 'master',
 ) {
-  include mysql::python
+  include ::mysql::python
 
   if ! defined(Package['python-paramiko']) {
     package { 'python-paramiko':

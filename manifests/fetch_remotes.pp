@@ -16,16 +16,16 @@ class jeepyb::fetch_remotes(
 ) {
   validate_array($log_options)
 
-  include jeepyb
+  include ::jeepyb
 
   cron { 'jeepyb_gerritfetchremotes':
-    ensure      => $ensure,
-    user        => $user,
-    minute      => $minute,
-    command     => "sleep $((RANDOM\%60+90)) && /usr/local/bin/manage-projects -v >> ${logfile} 2>&1",
+    ensure  => $ensure,
+    user    => $user,
+    minute  => $minute,
+    command => "sleep $((RANDOM\%60+90)) && /usr/local/bin/manage-projects -v >> ${logfile} 2>&1",
   }
 
-  include logrotate
+  include ::logrotate
   logrotate::file { $logfile:
     log     => $logfile,
     options => $log_options,

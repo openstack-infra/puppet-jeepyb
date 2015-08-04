@@ -12,7 +12,7 @@ class jeepyb::openstackwatch(
   $minute = '18',
   $hour = '*',
 ) {
-  include jeepyb
+  include ::jeepyb
 
   group { 'openstackwatch':
     ensure => present,

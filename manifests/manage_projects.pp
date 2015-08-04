@@ -14,7 +14,7 @@ class jeepyb::manage_projects(
 ) {
   validate_array($log_options)
 
-  include jeepyb
+  include ::jeepyb
 
   exec { 'jeepyb_manage_projects':
     command     => "/usr/local/bin/manage-projects -v >> ${logfile} 2>&1",
@@ -23,7 +23,7 @@ class jeepyb::manage_projects(
     logoutput   => true,
   }
 
-  include logrotate
+  include ::logrotate
   logrotate::file { $logfile:
     log     => $logfile,
     options => $log_options,
