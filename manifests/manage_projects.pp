@@ -17,7 +17,8 @@ class jeepyb::manage_projects(
   include ::jeepyb
 
   exec { 'jeepyb_manage_projects':
-    command     => "/usr/local/bin/manage-projects -v >> ${logfile} 2>&1",
+    ensure      => $ensure,
+    command     => "/usr/local/bin/manage-projects -v -l ${logdir}/${logfile}",
     timeout     => $timeout, # 15 minutes
     refreshonly => true,
     logoutput   => true,
