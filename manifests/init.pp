@@ -46,7 +46,7 @@ class jeepyb (
   }
 
   exec { 'install_jeepyb' :
-    command     => 'pip install /opt/jeepyb',
+    command     => 'pip install -U /opt/jeepyb',
     path        => '/usr/local/bin:/usr/bin:/bin/',
     refreshonly => true,
     require     => Class['mysql::python'],
