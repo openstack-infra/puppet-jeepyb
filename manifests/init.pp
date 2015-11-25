@@ -4,8 +4,6 @@ class jeepyb (
   $git_source_repo = 'https://git.openstack.org/openstack-infra/jeepyb',
   $git_revision    = 'master',
 ) {
-  include ::mysql::python
-
   if ! defined(Package['python-paramiko']) {
     package { 'python-paramiko':
       ensure   => present,
@@ -49,7 +47,6 @@ class jeepyb (
     command     => 'pip install -U /opt/jeepyb',
     path        => '/usr/local/bin:/usr/bin:/bin/',
     refreshonly => true,
-    require     => Class['mysql::python'],
     subscribe   => Vcsrepo['/opt/jeepyb'],
     logoutput   => true,
   }
