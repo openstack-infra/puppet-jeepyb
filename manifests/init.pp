@@ -23,10 +23,30 @@ class jeepyb (
           ensure => present,
         }
       }
+      if ! defined(Package['libxml2-dev']) {
+        package { 'libxml2-dev':
+          ensure => present,
+        }
+      }
+      if ! defined(Package['libxslt-dev']) {
+        package { 'libxslt-dev':
+          ensure => present,
+        }
+      }
     }
     'RedHat': {
       if ! defined(Package['PyYAML']) {
         package { 'PyYAML':
+          ensure => present,
+        }
+      }
+      if ! defined(Package['libxml2-devel']) {
+        package { 'libxml2-devel':
+          ensure => present,
+        }
+      }
+      if ! defined(Package['libxslt-devel']) {
+        package { 'libxslt-devel':
           ensure => present,
         }
       }
