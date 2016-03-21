@@ -1,10 +1,8 @@
 # == Class: jeepyb::fetch_remotes
 
 class jeepyb::fetch_remotes(
-  $ensure  = present,
-  $user    = 'gerrit2',
-  $minute  = '*/30',
-  $logfile = '/var/log/jeepyb_gerritfetchremotes.log',
+  $ensure      = present,
+  $logfile     = '/var/log/jeepyb_gerritfetchremotes.log',
   $log_options = [
     'compress',
     'missingok',
@@ -13,6 +11,8 @@ class jeepyb::fetch_remotes(
     'notifempty',
     'copytruncate',
   ],
+  $minute      = '*/30',
+  $user        = 'gerrit2',
 ) {
   validate_array($log_options)
 

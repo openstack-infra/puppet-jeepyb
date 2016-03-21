@@ -1,8 +1,6 @@
 # == Class: jeepyb::manage_projects
 
 class jeepyb::manage_projects(
-  $timeout = 900, # 15 minutes
-  $logfile = '/var/log/manage_projects.log',
   $log_options = [
     'compress',
     'missingok',
@@ -11,6 +9,8 @@ class jeepyb::manage_projects(
     'notifempty',
     'copytruncate',
   ],
+  $logfile     = '/var/log/manage_projects.log',
+  $timeout     = 900, # 15 minutes
 ) {
   validate_array($log_options)
 
