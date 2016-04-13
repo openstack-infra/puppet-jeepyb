@@ -10,8 +10,10 @@ class jeepyb (
     }
   }
 
-  package { 'gcc':
-    ensure => present,
+  if ! defined(Package['gcc']) {
+    package { 'gcc':
+      ensure => present,
+    }
   }
 
   # A lot of things need yaml, be conservative requiring this package to avoid
