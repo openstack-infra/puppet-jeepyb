@@ -35,16 +35,6 @@ class jeepyb (
           ensure => present,
         }
       }
-      if ! defined(Package['libffi-dev']) {
-        package { 'libffi-dev':
-          ensure => present,
-        }
-      }
-      if ! defined(Package['libssl-dev']) {
-        package { 'libssl-dev':
-          ensure => present,
-        }
-      }
     }
     'RedHat': {
       if ! defined(Package['PyYAML']) {
@@ -59,16 +49,6 @@ class jeepyb (
       }
       if ! defined(Package['libxslt-devel']) {
         package { 'libxslt-devel':
-          ensure => present,
-        }
-      }
-      if ! defined(Package['libffi-devel']) {
-        package { 'libffi-devel':
-          ensure => present,
-        }
-      }
-      if ! defined(Package['libssl-devel']) {
-        package { 'libssl-devel':
           ensure => present,
         }
       }
