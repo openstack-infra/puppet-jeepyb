@@ -68,7 +68,7 @@ class jeepyb (
         }
       }
       if ! defined(Package['openssl-devel']) {
-        package { 'libssl-devel':
+        package { 'openssl-devel':
           ensure => present,
         }
       }
