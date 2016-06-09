@@ -4,74 +4,60 @@ class jeepyb (
   $git_source_repo = 'https://git.openstack.org/openstack-infra/jeepyb',
   $git_revision    = 'master',
 ) {
-  if ! defined(Package['python-paramiko']) {
-    package { 'python-paramiko':
-      ensure   => present,
-    }
-  }
-
-  if ! defined(Package['gcc']) {
-    package { 'gcc':
-      ensure => present,
-    }
-  }
-
   # A lot of things need yaml, be conservative requiring this package to avoid
   # conflicts with other modules.
   case $::osfamily {
     'Debian': {
-      if ! defined(Package['python-yaml']) {
-        package { 'python-yaml':
-          ensure => present,
-        }
+      $jeepyb_packages = [
+        'python-paramiko',
+        'gcc',
+        'python-yaml',
+        'libxml2-dev',
+        'libxslt1-dev',
+        'libffi-dev',
+        'libssl-dev'
+      ]
+
+      @package { $jeepyb_packages:
+        ensure => present,
       }
-      if ! defined(Package['libxml2-dev']) {
-        package { 'libxml2-dev':
-          ensure => present,
-        }
-      }
-      if ! defined(Package['libxslt1-dev']) {
-        package { 'libxslt1-dev':
-          ensure => present,
-        }
-      }
-      if ! defined(Package['libffi-dev']) {
-        package { 'libffi-dev':
-          ensure => present,
-        }
-      }
-      if ! defined(Package['libssl-dev']) {
-        package { 'libssl-dev':
-          ensure => present,
-        }
-      }
+
+      realize (
+        Package['python-paramiko'],
+        Package['gcc'],
+        Package['python-yaml'],
+        Package['libxml2-dev'],
+        Package['libxslt1-dev'],
+        Package['libffi-dev'],
+        Package['libssl-dev'],
+      )
+
     }
     'RedHat': {
-      if ! defined(Package['PyYAML']) {
-        package { 'PyYAML':
-          ensure => present,
-        }
+      $jeepyb_packages = [
+        'python-paramiko',
+        'gcc',
+        'PyYAML',
+        'libxml2-devel',
+        'libxslt-devel',
+        'libffi-devel',
+        'openssl-devel'
+      ]
+
+      @package { $jeepyb_packages:
+        ensure => present,
       }
-      if ! defined(Package['libxml2-devel']) {
-        package { 'libxml2-devel':
-          ensure => present,
-        }
-      }
-      if ! defined(Package['libxslt-devel']) {
-        package { 'libxslt-devel':
-          ensure => present,
-        }
-      }
-      if ! defined(Package['libffi-devel']) {
-        package { 'libffi-devel':
-          ensure => present,
-        }
-      }
-      if ! defined(Package['openssl-devel']) {
-        package { 'openssl-devel':
-          ensure => present,
-        }
-      }
+
+      realize (
+        Package['python-paramiko'],
+        Package['gcc'],
+        Package['PyYAML'],
+        Package['libxml2-devel'],
+        Package['libxslt-devel'],
+        Package['libffi-devel'],
+        Package['openssl-devel'],
+      )
+
     }
     default: {
       fail("Unsupported osfamily: ${::osfamily} The 'jeepyb' module only supports osfamily Debian or RedHat.")
@@ -91,5 +77,6 @@ class jeepyb (
     refreshonly => true,
     subscribe   => Vcsrepo['/opt/jeepyb'],
     logoutput   => true,
+    require     => Package[$jeepyb_packages]
   }
 }
