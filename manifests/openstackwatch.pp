@@ -60,7 +60,7 @@ class jeepyb::openstackwatch(
   if ! defined(Package['python-swiftclient']) {
     package { 'python-swiftclient':
       ensure   => latest,
-      provider => pip,
+      provider => openstack_pip,
       require  => Class['pip'],
     }
   }
