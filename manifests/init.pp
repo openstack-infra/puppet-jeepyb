@@ -30,8 +30,8 @@ class jeepyb (
           ensure => present,
         }
       }
-      if ! defined(Package['libxslt-dev']) {
-        package { 'libxslt-dev':
+      if ! defined(Package['libxslt1-dev']) {
+        package { 'libxslt1-dev':
           ensure => present,
         }
       }
