@@ -16,65 +16,56 @@ class jeepyb (
     }
   }
 
-  # A lot of things need yaml, be conservative requiring this package to avoid
-  # conflicts with other modules.
   case $::osfamily {
     'Debian': {
-      if ! defined(Package['python-yaml']) {
-        package { 'python-yaml':
-          ensure => present,
-        }
-      }
-      if ! defined(Package['libxml2-dev']) {
-        package { 'libxml2-dev':
-          ensure => present,
-        }
-      }
-      if ! defined(Package['libxslt1-dev']) {
-        package { 'libxslt1-dev':
-          ensure => present,
-        }
-      }
-      if ! defined(Package['libffi-dev']) {
-        package { 'libffi-dev':
-          ensure => present,
-        }
-      }
-      if ! defined(Package['libssl-dev']) {
-        package { 'libssl-dev':
-          ensure => present,
-        }
-      }
+      $pydev   = 'python-dev'
+      $openssl = 'libssl-dev'
+      $pyyaml  = 'python-yaml'
+      $libxml2 = 'libxml2-dev'
+      $libxslt = 'libxslt1-dev'
+      $libffi  = 'libffi-dev'
     }
     'RedHat': {
-      if ! defined(Package['PyYAML']) {
-        package { 'PyYAML':
-          ensure => present,
-        }
-      }
-      if ! defined(Package['libxml2-devel']) {
-        package { 'libxml2-devel':
-          ensure => present,
-        }
-      }
-      if ! defined(Package['libxslt-devel']) {
-        package { 'libxslt-devel':
-          ensure => present,
-        }
-      }
-      if ! defined(Package['libffi-devel']) {
-        package { 'libffi-devel':
-          ensure => present,
-        }
-      }
-      if ! defined(Package['openssl-devel']) {
-        package { 'openssl-devel':
-          ensure => present,
-        }
-      }
+      $pydev   = 'python-devel'
+      $openssl = 'openssl-devel'
+      $pyyaml  = 'PyYAML'
+      $libxml2 = 'libxml2-devel'
+      $libxslt = 'libxslt-devel'
+      $libffi  = 'libffi-devel'
     }
     default: {
       fail("Unsupported osfamily: ${::osfamily} The 'jeepyb' module only supports osfamily Debian or RedHat.")
+    }
+  }
+
+  if ! defined(Package[$pydev]) {
+    package { "$pydev":
+      ensure => present,
+    }
+  }
+  if ! defined(Package[$openssl]) {
+    package { "$openssl":
+      ensure => present,
+    }
+  }
+  if ! defined(Package[$pyyaml]) {
+    package { "$pyyaml":
+      ensure => present,
+    }
+  }
+  if ! defined(Package[$libxml2]) {
+    package { "$libxml2":
+      ensure => present,
+    }
+  }
+  if ! defined(Package[$libxslt]) {
+    package { "$libxslt":
+      ensure => present,
+    }
+  }
+  if ! defined(Package[$libffi]) {
+    package { "$libffi":
+      ensure => present,
     }
   }
 
@@ -91,5 +82,16 @@ class jeepyb (
     refreshonly => true,
     subscribe   => Vcsrepo['/opt/jeepyb'],
     logoutput   => true,
+    require     => [
+                    Class['pip'],
+                    Package['gcc'],
+                    Package['python-paramiko'],
+                    Package[$pydev],
+                    Package[$openssl],
+                    Package[$pyyaml],
+                    Package[$libxml2],
+                    Package[$libxslt],
+                    Package[$libffi]
+                    ]
   }
 }
