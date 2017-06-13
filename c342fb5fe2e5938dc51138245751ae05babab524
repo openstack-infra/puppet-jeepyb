@@ -1,0 +1,9 @@
+Code-Review+2: Ian Wienand <iwienand@redhat.com>
+Code-Review+2: Monty Taylor <mordred@inaugust.com>
+Workflow+1: Monty Taylor <mordred@inaugust.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Tue, 13 Jun 2017 19:43:53 +0000
+Reviewed-on: https://review.openstack.org/473142
+Project: openstack-infra/puppet-jeepyb
+Branch: refs/heads/master
