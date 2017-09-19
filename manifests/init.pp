@@ -9,9 +9,7 @@ class jeepyb (
   case $::osfamily {
     'Debian': {
       $jeepyb_packages = [
-        'python-paramiko',
         'gcc',
-        'python-yaml',
         'libxml2-dev',
         'libxslt1-dev',
         'libffi-dev',
@@ -32,12 +30,18 @@ class jeepyb (
         Package['libssl-dev'],
       )
 
+      $remove_packages = [
+        'python-paramiko',
+        'python-yaml',
+      ]
+
+      package { $remove_packages:
+        ensure => absent,
+      }
     }
     'RedHat': {
       $jeepyb_packages = [
-        'python-paramiko',
         'gcc',
-        'PyYAML',
         'libxml2-devel',
         'libxslt-devel',
         'libffi-devel',
@@ -49,15 +53,21 @@ class jeepyb (
       }
 
       realize (
-        Package['python-paramiko'],
         Package['gcc'],
-        Package['PyYAML'],
         Package['libxml2-devel'],
         Package['libxslt-devel'],
         Package['libffi-devel'],
         Package['openssl-devel'],
       )
 
+      $remove_packages = [
+        'python-paramiko',
+        'PyYAML',
+      ]
+
+      package { $remove_packages:
+        ensure => absent,
+      }
     }
     default: {
       fail("Unsupported osfamily: ${::osfamily} The 'jeepyb' module only supports osfamily Debian or RedHat.")
@@ -75,8 +85,8 @@ class jeepyb (
     command     => 'pip install -U /opt/jeepyb',
     path        => '/usr/local/bin:/usr/bin:/bin/',
     refreshonly => true,
-    subscribe   => Vcsrepo['/opt/jeepyb'],
+    subscribe   => [Vcsrepo['/opt/jeepyb'], Package[$remove_packages]],
     logoutput   => true,
-    require     => Package[$jeepyb_packages]
+    require     => [Package[$jeepyb_packages], Package[$remove_packages]]
   }
 }
