@@ -11,15 +11,16 @@ class jeepyb::openstackwatch(
   $minute       = '18',
   $mode         = 'multiple',
   $projects     = [],
+  $ensure       = present,
 ) {
   include ::jeepyb
 
   group { 'openstackwatch':
-    ensure => present,
+    ensure => $ensure,
   }
 
   user { 'openstackwatch':
-    ensure     => present,
+    ensure     => $ensure,
     managehome => true,
     comment    => 'OpenStackWatch User',
     shell      => '/bin/bash',
@@ -29,7 +30,7 @@ class jeepyb::openstackwatch(
 
   if $swift_password != '' {
     cron { 'openstackwatch':
-      ensure  => present,
+      ensure  => $ensure,
       command => '/usr/local/bin/openstackwatch /home/openstackwatch/openstackwatch.ini',
       minute  => $minute,
       hour    => $hour,
@@ -43,7 +44,7 @@ class jeepyb::openstackwatch(
   }
 
   file { '/home/openstackwatch/openstackwatch.ini':
-    ensure  => present,
+    ensure  => $ensure,
     content => template('jeepyb/openstackwatch.ini.erb'),
     owner   => 'root',
     group   => 'openstackwatch',
@@ -53,13 +54,19 @@ class jeepyb::openstackwatch(
 
   if ! defined(Package['python-pyrss2gen']) {
     package { 'python-pyrss2gen':
-      ensure => present,
+      ensure => $ensure,
     }
+  }
+
+  if ($ensure == present) {
+    $latest = latest;
+  } else {
+    $latest = absent;
   }
 
   if ! defined(Package['python-swiftclient']) {
     package { 'python-swiftclient':
-      ensure   => latest,
+      ensure   => $latest,
       provider => openstack_pip,
       require  => Class['pip'],
     }
