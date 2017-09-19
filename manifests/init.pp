@@ -4,8 +4,6 @@ class jeepyb (
   $git_source_repo = 'https://git.openstack.org/openstack-infra/jeepyb',
   $git_revision    = 'master',
 ) {
-  # A lot of things need yaml, be conservative requiring this package to avoid
-  # conflicts with other modules.
   case $::osfamily {
     'Debian': {
       $jeepyb_packages = [
@@ -21,9 +19,7 @@ class jeepyb (
       }
 
       realize (
-        Package['python-paramiko'],
         Package['gcc'],
-        Package['python-yaml'],
         Package['libxml2-dev'],
         Package['libxslt1-dev'],
         Package['libffi-dev'],
@@ -32,7 +28,6 @@ class jeepyb (
 
       $remove_packages = [
         'python-paramiko',
-        'python-yaml',
       ]
 
       package { $remove_packages:
@@ -62,7 +57,6 @@ class jeepyb (
 
       $remove_packages = [
         'python-paramiko',
-        'PyYAML',
       ]
 
       package { $remove_packages:
