@@ -32,7 +32,6 @@ class jeepyb (
 
       $remove_packages = [
         'python-paramiko',
-        'python-yaml',
       ]
 
       package { $remove_packages:
@@ -62,7 +61,6 @@ class jeepyb (
 
       $remove_packages = [
         'python-paramiko',
-        'PyYAML',
       ]
 
       package { $remove_packages:
