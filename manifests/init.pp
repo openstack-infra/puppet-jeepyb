@@ -57,7 +57,6 @@ class jeepyb (
 
       $remove_packages = [
         'python-paramiko',
-        'python-six',
       ]
 
       package { $remove_packages:
