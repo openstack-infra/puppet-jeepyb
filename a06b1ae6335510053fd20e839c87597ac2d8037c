@@ -1,0 +1,9 @@
+Code-Review+2: Joshua Hesketh <josh@nitrotech.org>
+Code-Review+2: Colleen Murphy <colleen@gazlene.net>
+Workflow+1: Colleen Murphy <colleen@gazlene.net>
+Verified+2: Zuul
+Submitted-by: Zuul
+Submitted-at: Fri, 02 Feb 2018 11:54:19 +0000
+Reviewed-on: https://review.openstack.org/505339
+Project: openstack-infra/puppet-jeepyb
+Branch: refs/heads/master
